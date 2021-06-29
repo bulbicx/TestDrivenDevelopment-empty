@@ -145,21 +145,16 @@ public class Questions {
 	 */
 	public int superBlock(String input) {
     	int longest = 0;
-    	int count = 0;
-    	for (int i = 0; i < input.length(); i++) {
-    		if (i == 0) {
-    			count++;
-    			longest = count;
-    		} else {
-    			if (input.toLowerCase().charAt(i) == input.toLowerCase().charAt(i - 1)) {
-    				count++;
-    				if (longest < count) {
-    					longest = count;
-    				} else {
-    					count = 1;
-    				}
-    			}
-    		}
+    	int count = 1;
+    	for (int i = 0; i < input.length() - 1; i++) {
+			if (input.charAt(i) == input.charAt(i + 1)) {
+				count++;
+				if (longest < count) {
+					longest = count;
+				} 
+			} else {
+				count = 1;
+			}
     	}
     	return longest;
 	}
