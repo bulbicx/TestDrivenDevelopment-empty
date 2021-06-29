@@ -1,5 +1,7 @@
 package com.qa.testdrivendevelopment;
 
+import java.util.Arrays;
+
 public class Questions {
 
 	/**
@@ -28,7 +30,14 @@ public class Questions {
 	 * multChar("Hi-There") → "HHHiii---TTThhheeerrreee"
 	 */
 	public String multiChar(String input) {
-		return "";
+		String output = "";
+		for (int i = 0; i < input.length(); i++) {
+			for (int z = 0; z < 3; z++) {
+				output += input.charAt(i);
+			}
+		}
+		
+		return output;
 	}
 
 	/**
@@ -45,6 +54,18 @@ public class Questions {
 	 */
 
 	public String sandwichFilling(String sandwich) {
+		if (sandwich.toLowerCase().contains("bread")) {
+			String afterFirstBread = sandwich.toLowerCase().substring(sandwich.toLowerCase().indexOf("bread") + 5, sandwich.length());
+			if (afterFirstBread.contains("bread")) {
+				String filling = afterFirstBread.substring(0, afterFirstBread.indexOf("bread"));
+				String output = "";
+				for(int i = filling.length() - 1; i >= 0; i--) {
+					output += filling.charAt(i);
+				}
+				return output;
+			}
+			return "";
+		} 
 		return "";
 	}
 
@@ -61,6 +82,15 @@ public class Questions {
 	 * evenlySpaced(4, 60, 9) → false
 	 */
 	public boolean evenlySpaced(int a, int b, int c) {
+		int[] numbers = {a, b, c};
+		Arrays.sort(numbers);
+		int first = numbers[0];
+		int second = numbers[1];
+		int third = numbers[2];
+
+		if (second - first == third - second) {
+			return true;
+		}
 		return false;
 	}
 
@@ -76,7 +106,11 @@ public class Questions {
 	 * nMid("Chocolate", 1) → "Choclate"<br>
 	 */
 	public String nMid(String input, int n) {
-    	return "";
+		int stringLength = input.length();
+		int stringMid = (stringLength -1)/2;
+		int eachSide = (n-1)/2;
+		
+		return input.substring(0, stringMid - eachSide) + input.substring(stringMid + eachSide + 1, input.length());
 	}
 
 	/**
@@ -92,6 +126,9 @@ public class Questions {
 	 * endsJava("pythoniscool") → false <br>
 	 */
 	public boolean endsJava(String input) {
+		if (input.toLowerCase().endsWith("java")) {
+			return true;
+		}
     	return false;
 	}
 
@@ -107,7 +144,24 @@ public class Questions {
 	 * HINT: "a" == "a" if false HINT: "a".equals("a") is true
 	 */
 	public int superBlock(String input) {
-    	return -1;
+    	int longest = 0;
+    	int count = 0;
+    	for (int i = 0; i < input.length(); i++) {
+    		if (i == 0) {
+    			count++;
+    			longest = count;
+    		} else {
+    			if (input.toLowerCase().charAt(i) == input.toLowerCase().charAt(i - 1)) {
+    				count++;
+    				if (longest < count) {
+    					longest = count;
+    				} else {
+    					count = 1;
+    				}
+    			}
+    		}
+    	}
+    	return longest;
 	}
 
 	/**
@@ -123,7 +177,14 @@ public class Questions {
 	 * HINT: String.toLowerCase
 	 */
 	public int amISearch(String sentence) {
-    	return -1;
+		int amNum = 0;
+		String[] words = sentence.toLowerCase().split(" ");
+		for (String word : words) {
+			if (word.equals("am")) {
+				amNum++;
+			}
+		}
+    	return amNum;
 	}
 
 	/**
@@ -138,7 +199,15 @@ public class Questions {
 	 * fizzBuzz(8) → null
 	 */
 	public String fizzBuzz(int number) {
-    	return "";
+		if (number % 3 == 0 && number % 5 == 0) {
+			return "fizzbuzz";
+		} else if (number % 3 == 0) {
+			return "fizz";
+		} else if (number % 5 == 0) {
+			return "buzz";
+		} 
+		
+    	return null;
 	}
 
 	/**
@@ -162,7 +231,34 @@ public class Questions {
 	 */
 
 	public int largest(String input) {
-    	return -1;
+    	String[] numbersString = input.split(" ");
+    	int largest = 0;
+    	
+    	for (String num : numbersString) {
+    		int currNum = Integer.parseInt(num);
+    		int currValue = 0;  				
+    		for (int i = 0; i < num.length(); i++) {
+    			if (num.length() > 1) {// if more than 1 digit
+    				if (currNum > 99) { // if digits are more than 2
+    					currValue += currNum / 100; //add first digit to currValue
+    					currNum = Integer.parseInt(num.substring(i + 1, num.length()));    	// remove first digit				    					
+    				} else {
+    					currValue += currNum / 10; //add first digit to currValue
+    					currValue += currNum % 10; //get second digit
+    					break;
+    				}
+    			} else {
+    				currValue = Integer.parseInt(num);
+    			}
+    		}
+    		
+    		if (largest < currValue) {
+    			largest = currValue;
+    		}
+    	}
+    	
+    	return largest;
+    	
 	}
 
 	/**
@@ -179,6 +275,12 @@ public class Questions {
 	 * HINT: String.charAt
 	 */
 	public boolean compares(String word, int index, char letter) {
+		if (index < word.length() ) {
+			if (word.toLowerCase().charAt(index - 1) == letter) {
+				return true;
+			}
+			return false;
+		}
     	return false;
 	}
 }
